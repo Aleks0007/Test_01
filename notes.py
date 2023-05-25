@@ -79,3 +79,59 @@ class NoteApp:
 app = NoteApp()
 app.load_notes_from_file()
 
+while True:
+    print("1. Добавить заметку")
+    print("2. Редактировать заметку")
+    print("3. Удалить заметку")
+    print("4. Отфильтровать заметки по дате")
+    print("5. Отобразить заметку")
+    print("6. Отобразить все заметки")
+    print("0. Выход")
+
+    choice = input("Введите цифру операции, чтобы продолжить: ")
+
+    if choice == "1":
+        title = input("Введите заголовок заметки: ")
+        body = input("Введите тело заметки: ")
+        app.add_note(title, body)
+        print("Заметка успешно сохранена.")
+    elif choice == "2":
+        print("Список существующих заметок:")
+        app.display_all_notes()
+        note_id = int(input("Введите ID заметки из списка: "))
+        new_title = input("Введите новый заголовок: ")
+        new_body = input("Введите новое содержимое: ")
+        app.edit_note(note_id, new_title, new_body)
+        print("Заметка успешно отредактирована.")
+    elif choice == "3":
+        print("Список существующих заметок:")
+        app.display_all_notes()
+        note_id = int(input("Введите ID заметки из списка: "))
+        app.delete_note(note_id)
+        print("Заметка успешно удалена.")
+    elif choice == "4":
+        date = input("Введите дату (ГГГГ-ММ-ДД): ")
+        filtered_notes = app.filter_notes_by_date(date)
+        if filtered_notes:
+            print("Отфильтрованные заметки:")
+            for note in filtered_notes:
+                print(f"ID: {note.note_id}")
+                print(f"Заголовок: {note.title}")
+                print(f"Тело заметки: {note.body}")
+                print(f"Дата: {note.timestamp}")
+                print("---")
+        else:
+            print("Заметки не найдены.")
+    elif choice == "5":
+        print("Список существующих заметок:")
+        app.display_all_notes()
+        note_id = int(input("Введите ID заметки из списка: "))
+        app.display_note(note_id)
+    elif choice == "6":
+        app.display_all_notes()
+    elif choice == "0":
+        app.save_notes_to_file()
+        print("Выход...")
+        break
+    else:
+        print("Неверный выбор. Попробуйте снова.")
